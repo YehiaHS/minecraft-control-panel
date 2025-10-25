@@ -370,6 +370,19 @@ function App() {
         Minecraft Server Control Panel
       </Typography>
 
+      <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, mb: 2 }}>
+        <Typography variant="body2" color="text.secondary">
+          Backend: {backendUrl}
+        </Typography>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={() => setShowBackendConfig(true)}
+        >
+          Change Backend URL
+        </Button>
+      </Box>
+
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
             <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
