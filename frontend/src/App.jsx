@@ -13,13 +13,14 @@ import {
 import {
   PlayArrow, Stop, Terminal, Folder, Settings,
   Backup, Restore, People, BarChart, ExpandMore,
-  Memory, Cpu, Storage, Schedule, Extension, Chat
+  Memory, Cpu, Storage, Schedule, Extension, Chat, Login
 } from '@mui/icons-material';
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [loginData, setLoginData] = useState({ username: '', password: '' });
-function App() {
+  const [backendUrl, setBackendUrl] = useState(localStorage.getItem('backendUrl') || 'http://localhost:3000');
+  const [showBackendConfig, setShowBackendConfig] = useState(false);
   const [serverStatus, setServerStatus] = useState({ running: false, pid: null });
   const [performance, setPerformance] = useState(null);
   const [consoleOutput, setConsoleOutput] = useState([]);
@@ -37,14 +38,19 @@ function App() {
   const [plugins, setPlugins] = useState([]);
   const [chatMessage, setChatMessage] = useState('');
   const [schedules, setSchedules] = useState([]);
-  const [preferences, setPreferences] = useState({ theme: 'dark', language: 'en', notifications: true });  // Set up axios auth
+  const [preferences, setPreferences] = useState({ theme: 'dark', language: 'en', notifications: true });  // Set up axios base URL
+  useEffect(() => {
+    axios.defaults.baseURL = backendUrl;
+  }, [backendUrl]);
+
+  // Set up axios auth
   useEffect(() => {
     if (authenticated) {
       axios.defaults.auth = {
         username: loginData.username,
         password: loginData.password
       };
-      const socket = io('http://localhost:3001');
+      const socket = io(backendUrl);
       
       checkStatus();
       loadFiles();
@@ -292,6 +298,17 @@ function App() {
             <Typography variant="h5" component="h1" gutterBottom align="center">
               Minecraft Control Panel
             </Typography>
+            <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 2 }}>
+              Backend: {backendUrl}
+            </Typography>
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => setShowBackendConfig(true)}
+              sx={{ mb: 2 }}
+            >
+              Configure Backend URL
+            </Button>
             {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
             <TextField
               fullWidth
@@ -318,6 +335,31 @@ function App() {
             </Button>
           </CardContent>
         </Card>
+
+        <Dialog open={showBackendConfig} onClose={() => setShowBackendConfig(false)}>
+          <DialogTitle>Configure Backend URL</DialogTitle>
+          <DialogContent>
+            <TextField
+              fullWidth
+              label="Backend URL"
+              value={backendUrl}
+              onChange={(e) => setBackendUrl(e.target.value)}
+              placeholder="https://your-ngrok-url.ngrok.io or http://localhost:3000"
+              sx={{ mt: 1 }}
+              helperText="Enter your Colab backend URL (from ngrok) or local server URL"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setShowBackendConfig(false)}>Cancel</Button>
+            <Button onClick={() => {
+              localStorage.setItem('backendUrl', backendUrl);
+              axios.defaults.baseURL = backendUrl;
+              setShowBackendConfig(false);
+            }} variant="contained">
+              Save & Connect
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Container>
     );
   }
