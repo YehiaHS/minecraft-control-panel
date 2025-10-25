@@ -13,7 +13,7 @@ import {
 import {
   PlayArrow, Stop, Terminal, Folder, Settings,
   Backup, Restore, People, BarChart, ExpandMore,
-  Memory, Cpu, Storage, Schedule, Extension, Chat, Login
+  Memory, DeveloperBoard, Storage, Schedule, Extension, Chat, Login
 } from '@mui/icons-material';
 
 function App() {
@@ -448,7 +448,7 @@ function App() {
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Cpu color="primary" />
+                      <DeveloperBoard color="primary" />
                       <Box>
                         <Typography variant="body2">CPU Usage</Typography>
                         <Typography variant="h6">{performance.cpu.usage}%</Typography>
@@ -808,7 +808,7 @@ function App() {
             )}
           </Paper>
         </Grid>
-      </Grid>
+      )}
 
       {tabValue === 6 && (
         <Paper sx={{ p: 3 }}>
