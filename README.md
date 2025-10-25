@@ -1,15 +1,34 @@
 # Minecraft Server Control Panel
 
-A beautiful and powerful web-based control panel for managing a Minecraft server on macOS. Features remote access, file management, console control, and no port forwarding required thanks to ngrok tunneling.
+A comprehensive web-based control panel for managing Minecraft servers with 20+ advanced features.
 
-## Features
+## 🚀 Live Demo
 
-- 🖥️ **Web-based Control Panel**: Modern, intuitive UI built with React and Material-UI
-- 🎮 **Server Management**: Start, stop, and monitor your Minecraft server
-- 💻 **Live Console**: Real-time console output and command input
-- 📁 **File Manager**: Browse and edit server files directly from the web
-- 🌐 **Remote Access**: Access your control panel from anywhere without port forwarding
-- 🔒 **Secure**: Built-in authentication and secure tunneling
+[View the live demo on GitHub Pages](https://your-username.github.io/minecraft-control-panel/)
+
+> **Note:** This is a frontend-only demo. For full functionality, you need to run the backend locally.
+
+## ✨ Features
+
+### Core Server Management
+- **Server Control**: Start, stop, restart, and monitor server status
+- **Real-time Console**: Interactive console with command execution
+- **Performance Monitoring**: CPU, memory, and network usage tracking
+- **Player Management**: View online players, kick/ban management
+
+### Advanced Features
+- **File Management**: Browse and edit server files and configurations
+- **Backup System**: Automated and manual world backups
+- **Plugin Management**: Install, update, and configure plugins
+- **Chat Integration**: Real-time chat monitoring and messaging
+- **Scheduled Tasks**: Automated server maintenance and restarts
+
+### Professional Features
+- **Authentication**: Secure HTTP Basic Auth protection
+- **PWA Support**: Install as a mobile app
+- **Dark/Light Themes**: Modern Material-UI interface
+- **Responsive Design**: Works on desktop and mobile devices
+- **Real-time Updates**: WebSocket-powered live updates
 
 ## Prerequisites
 
