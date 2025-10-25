@@ -2,11 +2,31 @@
 
 A comprehensive web-based control panel for managing Minecraft servers with 20+ advanced features.
 
-## 🚀 Live Demo
+## 🚀 Deployment Options
 
-[View the live demo on GitHub Pages](https://your-username.github.io/minecraft-control-panel/)
+### Frontend Demo (GitHub Pages)
+The demo is live and showcases all UI features. No backend required.
 
-> **Note:** This is a frontend-only demo. For full functionality, you need to run the backend locally.
+### Full Backend Deployment
+For complete functionality, deploy the backend to a Node.js hosting service:
+
+#### Railway (Recommended - Free)
+1. Go to [railway.app](https://railway.app)
+2. Connect your GitHub account
+3. Deploy `minecraft-control-panel` repository
+4. Set environment variables: `PORT=3000`, `NODE_ENV=production`
+5. Get your backend URL and update frontend API calls
+
+#### Vercel (Alternative)
+```bash
+cd backend
+npm install -g vercel
+vercel --prod
+```
+
+See `BACKEND_DEPLOYMENT.md` for detailed instructions.
+
+## ✨ Features
 
 ## ✨ Features
 
