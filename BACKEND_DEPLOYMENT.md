@@ -1,26 +1,26 @@
 # Backend Deployment Guide
 
-## 🚀 Deploy Backend to Railway (Free)
+## 🚀 Deploy Backend to Render (Recommended - Free & Always On)
 
-Railway offers a generous free tier: 512MB RAM, 1GB storage, and no request limits.
+Render offers a **free tier that never sleeps** and provides 750 hours/month of compute time.
 
-### 1. Create Railway Account
-1. Go to [railway.app](https://railway.app)
-2. Sign up with your GitHub account (recommended for easy deployment)
+### 1. Create Render Account
+1. Go to [render.com](https://render.com)
+2. Sign up with your GitHub account (recommended)
 
-### 2. Deploy from GitHub Repository
-1. Click "New Project" → "Deploy from GitHub repo"
-2. Connect your GitHub account (if not already connected)
+### 2. Create New Web Service
+1. Click "New" → "Web Service"
+2. Connect your GitHub account
 3. Search for and select `minecraft-control-panel` repository
-4. Railway will auto-detect it's a Node.js app and deploy it
+4. Configure the service:
+   - **Name**: `minecraft-control-panel-backend`
+   - **Runtime**: `Node`
+   - **Build Command**: `npm install`
+   - **Start Command**: `npm start`
 
 ### 3. Configure Environment Variables
-In your Railway project dashboard:
-1. Go to "Variables" tab
-2. Add these environment variables:
-
+In the "Environment" section, add these variables:
 ```
-PORT=3000
 NODE_ENV=production
 MINECRAFT_SERVER_PATH=./minecraft-server
 ADMIN_USERNAME=admin
@@ -28,35 +28,49 @@ ADMIN_PASSWORD=your_secure_password_here
 ```
 
 ### 4. Deploy
-Railway will automatically build and deploy when you push changes to GitHub.
+Click "Create Web Service" - Render will build and deploy automatically.
 
 ### 5. Get Your Backend URL
-After deployment completes:
-1. Go to your project dashboard
-2. Copy the generated URL (looks like: `https://your-project-name.up.railway.app`)
+After deployment, copy the generated URL from your service dashboard (looks like: `https://your-service-name.onrender.com`)
 
-## 🔧 Alternative: Render (Free)
+## �️ Alternative: Fly.io (Excellent Performance)
 
-### 1. Create Render Account
-Go to [render.com](https://render.com) and sign up.
+Fly.io offers great performance with a generous free tier.
 
-### 2. Create New Web Service
-1. Click "New" → "Web Service"
-2. Connect your GitHub repository
-3. Configure:
-   - **Runtime**: Node
-   - **Build Command**: `npm install`
-   - **Start Command**: `npm start`
-   - **Environment Variables**: Same as above
+### 1. Install Fly CLI
+```bash
+# macOS
+brew install flyctl
 
-### 3. Deploy
-Render will build and deploy automatically.
+# Or download from: https://fly.io/docs/getting-started/installing-flyctl/
+```
+
+### 2. Create Fly Account & Deploy
+```bash
+# Login to Fly
+fly auth login
+
+# Deploy from your repository
+fly launch --from https://github.com/YehiaHS/minecraft-control-panel
+
+# Set environment variables
+fly secrets set NODE_ENV=production
+fly secrets set MINECRAFT_SERVER_PATH=./minecraft-server
+fly secrets set ADMIN_USERNAME=admin
+fly secrets set ADMIN_PASSWORD=your_secure_password
+
+# Deploy
+fly deploy
+```
+
+### 3. Get Your URL
+Fly will provide a URL like: `https://your-app-name.fly.dev`
 
 ## 🌐 Update Frontend to Use Hosted Backend
 
 After deploying the backend:
 
-1. **Get your backend URL** from Railway/Render dashboard
+1. **Get your backend URL** from Render/Fly dashboard
 2. **Update frontend API calls** in `frontend/src/App.jsx`:
    - Change `http://localhost:3000` to your hosted backend URL
 3. **Rebuild frontend**:
@@ -66,22 +80,25 @@ After deploying the backend:
    ```
 4. **Deploy updated frontend** to GitHub Pages
 
-## 📱 Demo vs Full Version
+## � Comparison: Hosting Options
 
-- **GitHub Pages**: Frontend demo only (static showcase)
-- **Railway/Render**: Full backend functionality (live server control)
-- **Local**: Both frontend + backend for development
+| Service | Free Tier | Sleeps? | Performance | Setup Difficulty |
+|---------|-----------|---------|-------------|------------------|
+| **Render** | 750 hrs/month | ❌ Never | Excellent | Easy |
+| **Fly.io** | 3 VMs, 160GB outbound | ❌ Never | Excellent | Medium |
+| Railway | 512MB RAM | ⚠️ After 30min | Good | Easy |
+| Vercel | 100GB bandwidth | ❌ Never | Good | Medium |
 
 ## ⚠️ Important Notes
 
-- **Free tiers have limitations**: Railway/Render may sleep after inactivity
-- **Security**: Change default admin credentials in production
-- **Minecraft Server**: The backend expects a Minecraft server in `./minecraft-server/`
-- **File Paths**: All paths are relative to the backend directory
+- **Free tiers have limits**: Monitor usage to avoid unexpected charges
+- **Security**: Always change default admin credentials
+- **WebSockets**: Both Render and Fly support WebSocket connections
+- **File Storage**: Backend expects Minecraft server files in `./minecraft-server/`
 
 ## 🔍 Troubleshooting
 
-- **Port issues**: Railway assigns random ports - the app uses `process.env.PORT`
-- **Build failures**: Check Railway logs for dependency issues
+- **Port issues**: Apps use `process.env.PORT` automatically
+- **Build failures**: Check deployment logs for errors
 - **CORS errors**: Backend allows all origins by default
-- **File access**: Ensure Minecraft server files are in the correct path
+- **WebSocket issues**: Ensure your hosting provider supports WebSockets
